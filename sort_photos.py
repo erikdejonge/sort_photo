@@ -90,9 +90,10 @@ def exif_date_time(filepath, year, month, day):
     exif = image_file._getexif()
     if 36867 in exif:
         jpgd = str(image_file._getexif()[36867]).split(":")
-        year = str(jpgd[0]).strip()
-        month = str(jpgd[1]).strip()
-        day = str(jpgd[2].split(" ")[0]).strip()
+        if len(jpgd) == 3:
+            year = str(jpgd[0]).strip()
+            month = str(jpgd[1]).strip()
+            day = str(jpgd[2].split(" ")[0]).strip()
 
     # pylint: enable-msg=W0212
 
