@@ -32,7 +32,7 @@ MINHEIGHT = 270
 
 NAME = "test"
 
-elif NAME == "test":
+if NAME == "test":
     SOURCEDIR = "./source"
     TARGETDIR = "./target"
 
