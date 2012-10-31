@@ -32,19 +32,9 @@ MINHEIGHT = 270
 
 NAME = "test"
 
-if NAME == "djv":
-    SOURCEDIR = "/Volumes/bu/vakkleding/gesorteerde_foto/dropbox"
-    TARGETDIR = "/Volumes/bu/vakkleding/gesorteerde_foto"
-elif NAME == "erik":
-    SOURCEDIR = "/Volumes/bu/Dropbox/Foto"
-    TARGETDIR = "/Volumes/bu/Dropbox/SortedPictures"
-elif NAME == "marjan":
-    SOURCEDIR = "/Volumes/bu/marjan/workarea"
-    TARGETDIR = "/Volumes/bu/marjan/Dropbox/Photos/automatisch_gesorteerd"
 elif NAME == "test":
     SOURCEDIR = "./source"
     TARGETDIR = "./target"
-    #os.system("mv ./target/* ./source")
 
 def callback(arg, directory, files):
     for filen in files:
