@@ -36,17 +36,38 @@ if NAME == "test":
     SOURCEDIR = "./source"
     TARGETDIR = "./target"
 
+def valid_types(filepath):
+    extensions = [
+        "jpg",
+        "mpg",
+        "png",
+        "mov",
+        "avi",
+        "gif",
+        "3gp",
+        "mp4",
+        "mpg",
+        "cr2",
+        "bmp",
+        ]
+    for ext in extensions:
+        if filepath.lower().endswith(ext):
+            return True
+    return False
+
+
 def callback(arg, directory, files):
     for filen in files:
         the_pic = os.path.join(directory, filen)
-        if os.path.isfile(the_pic):
-            data = open(the_pic, "r").read(1000)
-            md5_data = (len(arg), the_pic, hashlib.md5(data).hexdigest())
-            arg.append(md5_data)
-            sys.stdout.write(".")
-            if len(arg) % 100 == 0:
-                sys.stdout.write("\n" + str(len(arg)))
-            sys.stdout.flush()
+        if valid_types(the_pic):
+            if os.path.isfile(the_pic):
+                data = open(the_pic, "r").read(2000)
+                md5_data = (len(arg), the_pic, hashlib.md5(data).hexdigest())
+                arg.append(md5_data)
+                sys.stdout.write(".")
+                if len(arg) % 100 == 0:
+                    sys.stdout.write("\n" + str(len(arg)))
+                sys.stdout.flush()
 
 
 def read_path():
@@ -88,12 +109,14 @@ def exif_date_time(filepath, year, month, day):
     # pylint: disable-msg=W0212
 
     exif = image_file._getexif()
-    if 36867 in exif:
-        jpgd = str(image_file._getexif()[36867]).split(":")
-        if len(jpgd) == 3:
-            year = str(jpgd[0]).strip()
-            month = str(jpgd[1]).strip()
-            day = str(jpgd[2].split(" ")[0]).strip()
+
+    if exif:
+        if 36867 in exif:
+            jpgd = str(image_file._getexif()[36867]).split(":")
+            if len(jpgd) == 3:
+                year = str(jpgd[0]).strip()
+                month = str(jpgd[1]).strip()
+                day = str(jpgd[2].split(" ")[0]).strip()
 
     # pylint: enable-msg=W0212
 
@@ -114,26 +137,6 @@ def determine_date_filename_dropbox(filepath, year, month, day):
             except ValueError, exc:
                 print exc
     return (year, month, day)
-
-
-def valid_types(filepath):
-    extensions = [
-        "jpg",
-        "mpg",
-        "png",
-        "mov",
-        "avi",
-        "gif",
-        "3gp",
-        "mp4",
-        "mpg",
-        "cr2",
-        "bmp",
-        ]
-    for ext in extensions:
-        if filepath.lower().endswith(ext):
-            return True
-    return False
 
 
 def fp_is_jpg(filepath):
@@ -176,11 +179,17 @@ def ensure_directory(year, month, day):
     return day_path
 
 
+def shell_escape(astring):
+    return astring.replace("(","\\(").replace(")","\\)").replace(" ","\\ ").replace("'","\\'")
+
+
 def main():
     pics_moved = 0
 
     media_files = check_for_existence(read_path())
     data = 0
+    print len(media_files)
+
     for filepath in media_files:
 
         data = data + 1
@@ -196,17 +205,18 @@ def main():
 
             (year, month, day) = determine_date_filename_dropbox(filepath, year, month, day)
 
-            print day, month, year
             day_path = ensure_directory(year, month, day)
-
             if not os.path.exists(day_path + "/" + os.path.basename(filepath)):
-                print "moved:", day_path + "/" + os.path.basename(filepath)
-                os.system("mv '" + filepath + "' " + day_path + "/")
+                print filepath
+                #print "moved:", day_path + "/" + os.path.basename(filepath)
+                #print ('mv "' + shell_escape(filepath) + '" ' + shell_escape(day_path) + "/")
+                os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
                 pics_moved += 1
 
     print
     print pics_moved, "pics moved"
-
+    return pics_moved
 
 if __name__ == "__main__":
-    main()
+    while main() != 0:
+        pass
