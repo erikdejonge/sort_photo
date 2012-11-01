@@ -16,6 +16,7 @@ Result:
 
 A folder structure year/month/day with the photo's of that day.
 
+<pre>
 2011
 2012
     01
@@ -25,3 +26,4 @@ A folder structure year/month/day with the photo's of that day.
         etc..
     02
     etc..
+</pre>
