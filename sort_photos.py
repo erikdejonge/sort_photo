@@ -30,11 +30,11 @@ SIZEALL = 1
 MINWIDTH = 360
 MINHEIGHT = 270
 
-NAME = "test"
+NAME = "erik"
 
-if NAME == "test":
-    SOURCEDIR = "./source"
-    TARGETDIR = "./target"
+if NAME == "erik":
+    SOURCEDIR = "/Volumes/bu/Dropbox/Foto"
+    TARGETDIR = "/Volumes/bu/Dropbox/photos"
 
 def valid_types(filepath):
     extensions = [
