@@ -114,16 +114,18 @@ def exif_date_time(filepath, year, month, day):
     """
 
     image_file = Image.open(filepath)
-    exif = image_file._getexif()
+    try:
+        exif = image_file._getexif()
 
-    if exif:
-        if 36867 in exif:
-            jpgd = str(image_file._getexif()[36867]).split(":")
-            if len(jpgd) == 3:
-                year = str(jpgd[0]).strip()
-                month = str(jpgd[1]).strip()
-                day = str(jpgd[2].split(" ")[0]).strip()
-
+        if exif:
+            if 36867 in exif:
+                jpgd = str(image_file._getexif()[36867]).split(":")
+                if len(jpgd) == 3:
+                    year = str(jpgd[0]).strip()
+                    month = str(jpgd[1]).strip()
+                    day = str(jpgd[2].split(" ")[0]).strip()
+    except Exception, ex:
+        print ex
     return year, month, day
 
 
