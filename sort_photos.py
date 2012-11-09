@@ -1,27 +1,13 @@
-# pylint: disable-msg=C0103
-# pylint: enable-msg=C0103
-# tempfile regex format
-#
-# pylint: disable-msg=C0111
-# missing docstring
-#
-# pylint: disable-msg=W0232
-# no __init__ method
-#
-# pylint: disable-msg=R0903
-# to few public methods
-#
-# DISABLED_ylint: disable-msg=R0201
-# method could be a function
-#
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# time.gmtime(s.st_mtime)
+"""
+    Sorts photos found in sourcedir and moves them to a new datebased directory structure
+"""
 
 import time
 import os
 import sys
+#noinspection PyCompatibility,PyCompatibility
 import hashlib
 import Image
 from dateutil.parser import parse
@@ -30,13 +16,21 @@ SIZEALL = 1
 MINWIDTH = 360
 MINHEIGHT = 270
 
-NAME = "test"
+#NAME = "test"
+NAME = "djv"
 
 if NAME == "test":
     SOURCEDIR = "./source"
     TARGETDIR = "./target"
+elif NAME == "djv":
+    SOURCEDIR = "/Volumes/bu/vakkleding/kopie/dropbox/"
+    TARGETDIR = "/Volumes/bu/vakkleding/gesorteerde_foto/"
 
 def valid_types(filepath):
+    """
+        extensions which are added to the process list
+    """
+
     extensions = [
         "jpg",
         "mpg",
@@ -49,7 +43,7 @@ def valid_types(filepath):
         "mpg",
         "cr2",
         "bmp",
-        ]
+    ]
     for ext in extensions:
         if filepath.lower().endswith(ext):
             return True
@@ -57,6 +51,10 @@ def valid_types(filepath):
 
 
 def callback(arg, directory, files):
+    """
+        callback for the recursive file indexer
+    """
+
     for filen in files:
         the_pic = os.path.join(directory, filen)
         if valid_types(the_pic):
@@ -71,6 +69,10 @@ def callback(arg, directory, files):
 
 
 def read_path():
+    """
+        read the source path and index files
+    """
+
     media_files = {}
     file_list = []
     print SOURCEDIR
@@ -84,6 +86,10 @@ def read_path():
 
 
 def check_for_existence(media_files):
+    """
+        check if the file exists, filter for media files)
+    """
+
     media_files2 = []
     for media_file in media_files:
         filepath = media_files[media_file][1]
@@ -93,21 +99,25 @@ def check_for_existence(media_files):
 
 
 def determine_date_file(filepath):
+    """
+        get date from file
+    """
+
     stat_file = os.stat(filepath)
     gmtime_data = time.gmtime(int(stat_file.st_mtime))
     year = str(gmtime_data[0])
     month = str(gmtime_data[1])
     day = str(gmtime_data[2])
 
-    return (year, month, day)
+    return year, month, day
 
 
 def exif_date_time(filepath, year, month, day):
+    """
+        get date from exif data in jpg
+    """
+
     image_file = Image.open(filepath)
-
-    # protected member
-    # pylint: disable-msg=W0212
-
     exif = image_file._getexif()
 
     if exif:
@@ -118,15 +128,17 @@ def exif_date_time(filepath, year, month, day):
                 month = str(jpgd[1]).strip()
                 day = str(jpgd[2].split(" ")[0]).strip()
 
-    # pylint: enable-msg=W0212
-
-    return (year, month, day)
+    return year, month, day
 
 
 def determine_date_filename_dropbox(filepath, year, month, day):
+    """
+        get date from dropbox style files
+    """
+
     filename = os.path.basename(filepath)
     fnamesplit = filename.split(" ")
-    if len(fnamesplit)>0:
+    if len(fnamesplit) > 0:
         datefilename = fnamesplit[0].strip()
         if len(datefilename.split("-")) == 3:
             try:
@@ -136,10 +148,14 @@ def determine_date_filename_dropbox(filepath, year, month, day):
                 day = filedate.day
             except ValueError, exc:
                 print exc
-    return (year, month, day)
+    return year, month, day
 
 
 def fp_is_jpg(filepath):
+    """
+        test for jpg
+    """
+
     extensions = ["jpg"]
     for ext in extensions:
         if filepath.lower().endswith(ext):
@@ -148,6 +164,9 @@ def fp_is_jpg(filepath):
 
 
 def ensure_directory(year, month, day):
+    """
+        check and make folder
+    """
     year = str(year)
     month = str(month)
     day = str(day)
@@ -180,10 +199,18 @@ def ensure_directory(year, month, day):
 
 
 def shell_escape(astring):
-    return astring.replace("(","\\(").replace(")","\\)").replace(" ","\\ ").replace("'","\\'")
+    """
+        escape os path
+    """
+
+    return astring.replace("(", "\\(").replace(")", "\\)").replace(" ", "\\ ").replace("'", "\\'")
 
 
 def main():
+    """
+        check all files, determine date and move to new folder
+    """
+
     pics_moved = 0
 
     media_files = check_for_existence(read_path())
@@ -191,8 +218,7 @@ def main():
     print len(media_files)
 
     for filepath in media_files:
-
-        data = data + 1
+        data += 1
 
         if not valid_types(filepath):
             print "not valid type", filepath
@@ -208,8 +234,6 @@ def main():
             day_path = ensure_directory(year, month, day)
             if not os.path.exists(day_path + "/" + os.path.basename(filepath)):
                 print filepath
-                #print "moved:", day_path + "/" + os.path.basename(filepath)
-                #print ('mv "' + shell_escape(filepath) + '" ' + shell_escape(day_path) + "/")
                 os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
                 pics_moved += 1
 
