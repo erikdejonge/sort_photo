@@ -16,15 +16,11 @@ SIZEALL = 1
 MINWIDTH = 360
 MINHEIGHT = 270
 
-#NAME = "test"
 NAME = "djv"
 
 if NAME == "test":
     SOURCEDIR = "./source"
     TARGETDIR = "./target"
-elif NAME == "djv":
-    SOURCEDIR = "/Volumes/bu/vakkleding/kopie/dropbox/"
-    TARGETDIR = "/Volumes/bu/vakkleding/gesorteerde_foto/"
 
 def valid_types(filepath):
     """
