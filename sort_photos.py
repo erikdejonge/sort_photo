@@ -16,7 +16,7 @@ SIZEALL = 1
 MINWIDTH = 360
 MINHEIGHT = 270
 
-NAME = "djv"
+NAME = "test"
 
 if NAME == "test":
     SOURCEDIR = "./source"
