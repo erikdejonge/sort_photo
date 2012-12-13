@@ -33,8 +33,8 @@ MINHEIGHT = 270
 NAME = "erik"
 
 if NAME == "erik":
-    SOURCEDIR = "/Volumes/bu/Dropbox/Foto"
-    TARGETDIR = "/Volumes/bu/Dropbox/photos"
+    SOURCEDIR = "/Users/rabshakeh/Dropbox/Foto"
+    TARGETDIR = "/Users/rabshakeh/Dropbox/photos"
 
 def valid_types(filepath):
     extensions = [
@@ -212,6 +212,8 @@ def main():
                 #print ('mv "' + shell_escape(filepath) + '" ' + shell_escape(day_path) + "/")
                 os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
                 pics_moved += 1
+            else:
+                print day_path + "/" + os.path.basename(filepath), "exists"
 
     print
     print pics_moved, "pics moved"
