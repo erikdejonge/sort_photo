@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    Sorts photos found in sourcedir and moves them to a new datebased directory structure
+    Sorts photos found in sourcedir and moves them to a new datebased directory structure xxx
 """
 
 import time
