@@ -75,7 +75,7 @@ def read_path():
     file_list = []
     print SOURCEDIR
     os.path.walk(SOURCEDIR, callback, file_list)
-    print len(file_list)0555555
+    print len(file_list)
     for i in file_list:
         if "Aperture" not in str(i):
             media_files[i[2]] = i
