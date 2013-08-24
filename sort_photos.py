@@ -12,7 +12,7 @@
 # to few public methods
 #
 # DISABLED_ylint: disable-msg=R0201
-# method could be a function
+# method could be a function xx
 #
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
