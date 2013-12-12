@@ -12,7 +12,7 @@
 # to few public methods
 #
 # DISABLED_ylint: disable-msg=R0201
-# method could be a function
+# method could be a function xx
 #
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -46,6 +46,7 @@ def valid_types(filepath):
         "gif",
         "3gp",
         "mp4",
+        "mts",
         "mpg",
         "cr2",
         "bmp",
@@ -175,6 +176,7 @@ def ensure_directory(year, month, day):
     if not os.path.exists(month_path):
         os.mkdir(month_path)
     if not os.path.exists(day_path):
+        print day_path
         os.mkdir(day_path)
     return day_path
 
@@ -212,9 +214,11 @@ def main():
             if not os.path.exists(day_path + "/" + os.path.basename(filepath)):
                 print filepath
                 #print "moved:", day_path + "/" + os.path.basename(filepath)
-                #print ('mv "' + shell_escape(filepath) + '" ' + shell_escape(day_path) + "/")
-                os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
+
+                os.system('cp  ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
                 pics_moved += 1
+            else:
+                print day_path + "/" + os.path.basename(filepath), "exists"
 
     print
     print pics_moved, "pics moved"
@@ -222,4 +226,5 @@ def main():
 
 if __name__ == "__main__":
     while main() != 0:
+        exit(1)
         pass
