@@ -33,7 +33,7 @@ MINHEIGHT = 270
 NAME = "erik"
 
 if NAME == "erik":
-    SOURCEDIR = "/Volumes/bu/Dropbox/Foto"
+    SOURCEDIR = "/Volumes/bu/Dropbox/Camera Uploads/"
     TARGETDIR = "/Volumes/bu/Dropbox/photos"
 
 def valid_types(filepath):
@@ -201,8 +201,11 @@ def main():
             is_image = fp_is_jpg(filepath)
 
             if is_image:
-                (year, month, day) = exif_date_time(filepath, year, month, day)
-
+                try:
+                    (year, month, day) = exif_date_time(filepath, year, month, day)
+                except:
+                    print filepath
+		    print
             (year, month, day) = determine_date_filename_dropbox(filepath, year, month, day)
 
             day_path = ensure_directory(year, month, day)
