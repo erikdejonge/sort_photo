@@ -16,11 +16,11 @@ SIZEALL = 1
 MINWIDTH = 360
 MINHEIGHT = 270
 
-NAME = "djv"
+NAME = "edj"
 
-if NAME == "test":
-    SOURCEDIR = "./source"
-    TARGETDIR = "./target"
+if NAME == "edj":
+    SOURCEDIR = "/Volumes/bu/Dropbox (Active8)/Camera Uploads"
+    TARGETDIR = "/Volumes/bu/Dropbox (Active8)/photos"
 
 def valid_types(filepath):
     """
