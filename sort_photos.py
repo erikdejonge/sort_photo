@@ -22,7 +22,7 @@ if NAME == "test":
     SOURCEDIR = "./source"
     TARGETDIR = "./target"
 elif NAME == "edj":
-    SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
+    SOURCEDIR = "/Users/rabshakeh/Dropbox (Active8)/tosort"
     TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
 
 def valid_types(filepath):
