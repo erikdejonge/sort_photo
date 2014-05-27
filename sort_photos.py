@@ -16,14 +16,9 @@ SIZEALL = 1
 MINWIDTH = 360
 MINHEIGHT = 270
 
-NAME = "edj"
 
-if NAME == "edj":
-    SOURCEDIR = "/Volumes/bu/Dropbox (Active8)/Camera Uploads"
-    TARGETDIR = "/Volumes/bu/Dropbox (Active8)/photos"
-elif NAME == "edj2":
-    SOURCEDIR = "/Users/rabshakeh/Dropbox (Active8)/tosort"
-    TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
+SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
+TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
 
 def valid_types(filepath):
     """
