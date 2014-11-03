@@ -17,7 +17,7 @@ MINWIDTH = 360
 MINHEIGHT = 270
 
 
-SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
+SOURCEDIR = "/Users/rabshakeh/Dropbox (Active8)/Camera Uploads"
 TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
 
 def valid_types(filepath):
