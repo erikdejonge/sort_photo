@@ -19,8 +19,8 @@ MINHEIGHT = 270
 #SOURCEDIR = "../sortphotos"
 #TARGETDIR = "/Volumes/bu/Dropbox (Active8)/photos"
 
-SOURCEDIR = "/Users/rabshakeh/Dropbox (Active8)/Camera Uploads"
-TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
+SOURCEDIR = "/Users/rabshakeh/Desktop/"
+TARGETDIR = "/Users/rabshakeh/xx"
 
 def valid_types(filepath):
     """
@@ -224,10 +224,11 @@ def main():
         else:
             (year, month, day) = determine_date_file(filepath)
             is_image = fp_is_jpg(filepath)
-
-            if is_image:
-                (year, month, day) = exif_date_time(filepath, year, month, day)
-
+            try:
+            	if is_image:
+                	(year, month, day) = exif_date_time(filepath, year, month, day)
+	    except:
+		pass
             (year, month, day) = determine_date_filename_dropbox(filepath, year, month, day)
 
             day_path = ensure_directory(year, month, day)
