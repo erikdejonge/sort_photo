@@ -16,11 +16,9 @@ SIZEALL = 1
 MINWIDTH = 360
 MINHEIGHT = 270
 
-#SOURCEDIR = "../sortphotos"
-#TARGETDIR = "/Volumes/bu/Dropbox (Active8)/photos"
+SOURCEDIR = "/Users/rabshakeh/Dropbox (Active8)/Camera Uploads"
+TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
 
-SOURCEDIR = "/Users/rabshakeh/Desktop/"
-TARGETDIR = "/Users/rabshakeh/xx"
 
 def valid_types(filepath):
     """
