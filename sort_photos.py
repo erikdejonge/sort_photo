@@ -14,9 +14,9 @@ from dateutil.parser import parse
 
 SIZEALL = 1
 MINWIDTH = 360
-MINHEIGHT = 270
+MINHEIGHT = 20
 
-SOURCEDIR = "/Users/rabshakeh/Dropbox (Active8)/Camera Uploads"
+SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
 TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
 
 
