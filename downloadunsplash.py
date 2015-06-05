@@ -1,67 +1,74 @@
-# coding=utf-8
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
-from builtins import open
-from builtins import dict
-from future import standard_library
-standard_library.install_aliases()
+#!/usr/bin/env python
+"""
+unsplash-download - Downloads images from unsplash.com
 
+Usage:
+  unsplash-download <folder>
+  unsplash-download -h | --help
+  unsplash-download -v | --version
+
+Options:
+  -h --help                 Show this screen
+  -v --version              Show version
+
+"""
+
+DEBUG = False
+ud_version='1.0.2'
+
+import urllib.request
+import re
 import os
+import sys
 
-from multiprocessing.dummy import Pool
+from docopt import docopt, DocoptExit
 
-import requests
+try:
+    from bs4 import BeautifulSoup, SoupStrainer
+except ImportError as e:
+    print("Could not import beatifulsoup4. Make sure it is installed.")
+    if DEBUG:
+        print(e, file=sys.stderr)
+    sys.exit()
 
-POSTS_ENDPOINT = 'http://api.tumblr.com/v2/blog/unsplash.com/posts'
+arguments     = docopt(__doc__, help=True, version='unsplash-download '+ud_version)
+download_path = arguments['<folder>']
+base_url      = 'https://unsplash.com'
+page          = 1
+link_search   = re.compile("/photos/[a-zA-Z0-9-]+/download")
 
+if not os.path.exists(download_path):
+    os.makedirs(download_path)
 
-def download_photo(url):
-  """
-  @type url: str
-  @return: None
-  """
-  dl_res = requests.get(url, allow_redirects=True)
+while True:
+    url = base_url + "/?page=" + str(page)
+    print("Parsing page %s" % url)
+    try:
+        soup = BeautifulSoup(urllib.request.urlopen(url).read(), "lxml")
+        for tag in soup.find_all(href=link_search):
+            image_id     = str(tag['href']).split('/')[2]
+            download_url = base_url + str(tag['href'])
+            
+            if os.path.exists("%s/%s.jpeg" % (download_path, image_id)):
+                print("Not downloading duplicate %s" % download_url)
+                continue
 
-  with open(os.path.join('photos', os.path.basename(dl_res.url)), 'wb') as f:
-    f.write(dl_res.content)
-    print("Downloaded {}".format(dl_res.url))
-
-
-def main():
-  """
-  main
-  """
-  photo_urls = set()
-  offset = 0
-  print("Getting photo urls...")
-
-  while True:
-    res = requests.get(POSTS_ENDPOINT,
-                       params=dict(api_key=os.environ['API_KEY'],
-                                   offset=offset)).json()['response']
-
-    if not len(res['posts']):
-      break
-    for post in res['posts']:
-      link_url = post.get('link_url')
-
-      if link_url:
-        photo_urls.add(link_url)
-
-    offset += 20
-
-  if not os.path.exists('photos'):
-    os.mkdir('photos')
-  print("Downloading {} photos...".format(len(photo_urls)))
-  pool = Pool(10)
-  pool.map(download_photo, photo_urls)
-  pool.close()
-  pool.join()
-
-  print("Done.")
-
-
-if __name__ == '__main__':
-  main()
+            print("Downloading %s" % download_url)
+            urllib.request.urlretrieve(
+                base_url + str(tag["href"]),
+                "%s/%s.jpeg" % (download_path, image_id)
+            )
+            
+    except urllib.error.HTTPError as e:
+        print("HTML error. This would be all.")
+        if DEBUG:
+            print(e, file=sys.stderr)
+        break
+    except HTMLParser.HTMLParseError as e:
+        print('Error parsing the HTML', file=sys.stderr)
+        if DEBUG:
+            print(e, file=sys.stderr)
+    except:
+        print("An unknown error occured", file=sys.stderr)
+    finally:
+        page = page + 1
