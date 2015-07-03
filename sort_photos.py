@@ -11,6 +11,7 @@ import sys
 import hashlib
 import Image
 from dateutil.parser import parse
+from appinstance import AppInstance, AppInstanceRunning
 
 SIZEALL = 1
 MINWIDTH = 360
@@ -207,37 +208,41 @@ def main():
     """
         check all files, determine date and move to new folder
     """
+    try:
+        pics_moved = 0
 
-    pics_moved = 0
+        media_files = check_for_existence(read_path())
+        data = 0
+        print len(media_files)
 
-    media_files = check_for_existence(read_path())
-    data = 0
-    print len(media_files)
+        for filepath in media_files:
+            data += 1
 
-    for filepath in media_files:
-        data += 1
+            if not valid_types(filepath):
+                print "not valid type", filepath
+            else:
+                (year, month, day) = determine_date_file(filepath)
+                is_image = fp_is_jpg(filepath)
+                try:
+                    if is_image:
+                        (year, month, day) = exif_date_time(filepath, year, month, day)
+            except:
 
-        if not valid_types(filepath):
-            print "not valid type", filepath
-        else:
-            (year, month, day) = determine_date_file(filepath)
-            is_image = fp_is_jpg(filepath)
-            try:
-            	if is_image:
-                	(year, month, day) = exif_date_time(filepath, year, month, day)
-	    except:
-		pass
-            (year, month, day) = determine_date_filename_dropbox(filepath, year, month, day)
+                (year, month, day) = determine_date_filename_dropbox(filepath, year, month, day)
 
-            day_path = ensure_directory(year, month, day)
-            if not os.path.exists(day_path + "/" + os.path.basename(filepath)):
-                print filepath
-                os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
-                pics_moved += 1
+                day_path = ensure_directory(year, month, day)
+                if not os.path.exists(day_path + "/" + os.path.basename(filepath)):
+                    print filepath
+                    os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
+                    pics_moved += 1
 
-    print
-    print pics_moved, "pics moved"
-    return pics_moved
+        print
+        print pics_moved, "pics moved"
+        return pics_moved
+    except AppInstanceRunning:
+        if parsedargs is not None:
+            if parsedargs.verbose:
+                console(color="red", msg="instance runs already")
 
 if __name__ == "__main__":
     while main() != 0:
