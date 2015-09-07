@@ -20,9 +20,9 @@ from consoleprinter import console
 from dateutil.parser import parse
 
 SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
-
+#SOURCEDIR= "/Users/rabshakeh/camera_uploads_aug_2015"
 TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
-
+#TARGETDIR = "/Users/rabshakeh/photos"
 MINWIDTH = 360
 MINHEIGHT = 20
 
@@ -180,7 +180,9 @@ def exif_date_time(filepath, year, month, day):
                     day = str(jpgd[2].split(" ")[0]).strip()
 
     except Exception as ex:
+        print(filepath)
         print(ex)
+
 
     return year, month, day
 
@@ -283,13 +285,13 @@ def main():
                     if is_image:
                         (year, month, day) = exif_date_time(filepath, year, month, day)
                 except:
-                    pass
+                    raise
 
                 (year, month, day) = determine_date_filename_dropbox(filepath, year, month, day)
                 day_path = ensure_directory(year, month, day)
-
+                #print(day_path + "/" + os.path.basename(filepath), os.path.exists(day_path + "/" + os.path.basename(filepath)))
                 if not os.path.exists(day_path + "/" + os.path.basename(filepath)):
-                    print(filepath)
+                    #print(filepath)
                     os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
                     pics_moved += 1
 
