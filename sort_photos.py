@@ -19,9 +19,9 @@ from appinstance import AppInstanceRunning
 from consoleprinter import console
 from dateutil.parser import parse
 
-SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
+SOURCEDIR = "/Volumes/bu/Dropbox (Active8)/camera_uploads_aug_2015"
 
-TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
+TARGETDIR = "/Volumes/bu/Dropbox (Active8)/photos"
 
 MINWIDTH = 360
 MINHEIGHT = 20
