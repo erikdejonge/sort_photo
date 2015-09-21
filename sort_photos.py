@@ -1,8 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/local/bin/python3
 # coding=utf-8
 """
     Sorts photos found in sourcedir and moves them to a new datebased directory structure xxx
 """
+
 from __future__ import division, print_function, absolute_import, unicode_literals
 from builtins import int
 from builtins import open
@@ -11,6 +12,7 @@ from future import standard_library
 
 import os
 import sys
+print(sys.version_info)
 import time
 import hashlib
 
@@ -19,17 +21,11 @@ from appinstance import AppInstanceRunning
 from consoleprinter import console
 from dateutil.parser import parse
 
-<<<<<<< HEAD
-SOURCEDIR = "/Volumes/bu/Dropbox (Active8)/camera_uploads_aug_2015"
-
-TARGETDIR = "/Volumes/bu/Dropbox (Active8)/photos"
-
-=======
 SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
 #SOURCEDIR= "/Users/rabshakeh/camera_uploads_aug_2015"
 TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
 #TARGETDIR = "/Users/rabshakeh/photos"
->>>>>>> acbb4436ca901a1557d03c9bb43faad2dd92a20e
+
 MINWIDTH = 360
 MINHEIGHT = 20
 
@@ -298,7 +294,7 @@ def main():
                 day_path = ensure_directory(year, month, day)
                 #print(day_path + "/" + os.path.basename(filepath), os.path.exists(day_path + "/" + os.path.basename(filepath)))
                 if not os.path.exists(day_path + "/" + os.path.basename(filepath)):
-                    #print(filepath)
+                    print(filepath)
                     os.system('mv ' + shell_escape(filepath) + ' ' + shell_escape(day_path) + "/")
                     pics_moved += 1
 
