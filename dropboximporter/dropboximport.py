@@ -43,7 +43,7 @@ def import_file(filename, targetdir='',
             name = datetimestring + fileext
         if sort_in_dir:
             datestring = filetime.strftime(dirfmt)
-            print(targetdir)
+
             targetdir = os.path.join(targetdir, datestring)
             if not os.path.isdir(targetdir):
                 try:
@@ -52,15 +52,15 @@ def import_file(filename, targetdir='',
                     print("Could not create dir {0}".format(targetdir))
                     return filename
         newfilename = os.path.join(targetdir, name)
+        print(newfilename)
         if os.path.exists(newfilename):
-            return filename
+            return filename+" skipped"
         try:
-
-            os.rename(filename, newfilename)
-        except IOError:
-            return filename
+            os.rename(filename, newfilename.replace('JPG', 'jpg').replace('PNG', 'png').replace('MOV', 'mov'))
+        except IOError as err:
+            return filename+" error "+str(err)
         else:
-            return None
+            return filename+" ok"
     else:
         return filename
 
@@ -96,10 +96,16 @@ def get_exif_time(filename):
     img = Image.open(filename)
     exf = img._getexif()
     if exf:
+
         timestr = exf.get(DATEEXIFKEY, None)
+
         if timestr:
+
             return datetime.datetime.strptime(timestr, "%Y:%m:%d %H:%M:%S")
+        else:
+            return get_file_time(filename)
     else:
+
         return get_file_time(filename)
 
 
@@ -118,8 +124,11 @@ def get_video_time(filename):
 
     """
     try:
-        mdata = enzyme.parse(filename)
-    except enzyme.exceptions.ParserError:
+
+        with open(filename, 'rb') as f:
+            mdata = enzyme.MKV(f)
+
+    except:
         return get_file_time(filename)
     tmepoch = mdata.timestamp
     # here is the place where too old (erroneous) date is not supported
@@ -134,5 +143,7 @@ def get_file_time(filename):
     try:
         mtime = os.path.getmtime(filename)
     except OSError:
+
         return None
+
     return datetime.datetime.fromtimestamp(mtime)

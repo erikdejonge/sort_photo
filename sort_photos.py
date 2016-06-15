@@ -24,7 +24,7 @@ from dateutil.parser import parse
 SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
 #SOURCEDIR= "/Users/rabshakeh/camera_uploads_aug_2015"
 #TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
-TARGETDIR = "/Users/rabshakeh/dropboxa8cic/photos"
+TARGETDIR = "/Users/rabshakeh/dropboxa8/photos"
 #TARGETDIR = "/Volumes/bu/sldropbox/photos"
 #TARGETDIR = "/Volumes/bu/sldropbox/photos"
 

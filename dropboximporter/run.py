@@ -8,7 +8,7 @@ class DropboxRenamer(object):
 
     def __init__(self):
         super(DropboxRenamer, self).__init__()
-        self.filelist = [x for x in os.listdir(sys.argv[1]) if x.lower().endswith('jpg') or x.lower().endswith('png') and not x.lower().startswith("201")]
+        self.filelist = [x for x in os.listdir(sys.argv[1]) if x.lower().endswith('mp4') or x.lower().endswith('mov') or x.lower().endswith('jpg') or x.lower().endswith('png') and not x.lower().startswith("201")]
         self.dirname = sys.argv[1:]
     def init_gui_values(self):
 
@@ -24,7 +24,7 @@ class DropboxRenamer(object):
     def renameFiles(self):
         for index in range(len(self.filelist) - 1, -1, -1):
             filename = self.filelist[index]
-
+            #print(filename)
             targetdir = self.dirname
 
             status = dropboximport.import_file(os.path.join(targetdir[0], filename), targetdir[0],
@@ -34,7 +34,7 @@ class DropboxRenamer(object):
                                                sort_in_dir=False,
                                                rename=True)
 
-            #print("status", status, os.path.join(targetdir[0], filename))
+            print("status", status)
             #os.remove(os.path.join(targetdir[0], filename))
 
 def main():
