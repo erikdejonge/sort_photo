@@ -52,6 +52,13 @@ def import_file(filename, targetdir='',
                     print("Could not create dir {0}".format(targetdir))
                     return filename
         newfilename = os.path.join(targetdir, name)
+        if os.path.exists(newfilename):
+            for i in range(0, 10):
+                ext = newfilename.split(".")[-1]
+                tempfilename = newfilename.strip(ext).rstrip(".") + "-` !" + str(i) + "." + ext
+                if not os.path.exists(tempfilename):
+                    newfilename = tempfilename
+                    break
         print(newfilename)
         if os.path.exists(newfilename):
             return filename+" skipped"
