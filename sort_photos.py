@@ -21,10 +21,9 @@ from appinstance import AppInstanceRunning
 from consoleprinter import console
 from dateutil.parser import parse
 
-SOURCEDIR = "/Users/rabshakeh/Dropbox (Personal)/Camera Uploads"
 #SOURCEDIR= "/Users/rabshakeh/camera_uploads_aug_2015"
 #TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
-TARGETDIR = "/Users/rabshakeh/dropboxa8/photos"
+#TARGETDIR = "/Users/rabshakeh/dropboxpers/photos"
 #TARGETDIR = "/Volumes/bu/sldropbox/photos"
 #TARGETDIR = "/Volumes/bu/sldropbox/photos"
 
@@ -210,6 +209,7 @@ def read_path():
     """
     read_path
     """
+    global SOURCEDIR
     media_files = {}
     file_list = []
     print(SOURCEDIR)
@@ -290,6 +290,7 @@ def main():
                     if is_image:
                         (year, month, day) = exif_date_time(filepath, year, month, day)
                 except:
+                    print ('hoi')
                     raise
 
                 (year, month, day) = determine_date_filename_dropbox(filepath, year, month, day)
@@ -307,8 +308,3 @@ def main():
         console(color="red", msg="instance runs already")
 
 standard_library.install_aliases()
-
-
-if __name__ == "__main__":
-    while main() != 0:
-        pass
