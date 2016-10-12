@@ -279,6 +279,8 @@ def main():
         print(len(media_files))
 
         for filepath in media_files:
+#            if  pics_moved > 0:
+#                raise SystemError()
             if not valid_types(filepath):
                 print("not valid type", filepath)
             else:
