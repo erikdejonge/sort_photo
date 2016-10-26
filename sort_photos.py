@@ -4,7 +4,10 @@
     Sorts photos found in sourcedir and moves them to a new datebased directory structure xxx
 """
 
-from __future__ import division, print_function, absolute_import, unicode_literals
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 from builtins import int
 from builtins import open
 from builtins import str
@@ -13,8 +16,8 @@ from future import standard_library
 import os
 import sys
 print(sys.version_info)
-import time
 import hashlib
+import time
 
 from PIL import Image
 from appinstance import AppInstanceRunning
@@ -252,6 +255,7 @@ def valid_types(filepath):
         "avi",
         "gif",
         "3gp",
+        "psd",
         "mp4",
         "mpg",
         "m4v",
