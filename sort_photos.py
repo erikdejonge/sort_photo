@@ -151,14 +151,24 @@ def ensure_directory(year, month, day):
     day_path = month_path + "/" + day
 
     if not os.path.exists(year_path):
-        os.mkdir(year_path)
-
+        try:
+            os.mkdir(year_path)
+        except FileExistsError as ex:
+            print(ex)
+            print(day_path)
     if not os.path.exists(month_path):
-        os.mkdir(month_path)
+        try:
+            os.mkdir(month_path)
+        except FileExistsError as ex:
+            print(ex)
+            print(day_path)
 
     if not os.path.exists(day_path):
-        os.mkdir(day_path)
-
+        try:
+            os.mkdir(day_path)
+        except FileExistsError as ex:
+            print(ex)
+            print(day_path)
     return day_path
 
 
