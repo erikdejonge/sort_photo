@@ -18,7 +18,7 @@ import sys
 print(sys.version_info)
 import hashlib
 import time
-
+import PIL
 from PIL import Image
 from appinstance import AppInstanceRunning
 from consoleprinter import console
@@ -259,6 +259,7 @@ def valid_types(filepath):
     """
     extensions = [
         "jpg",
+        "jpeg",
         "mpg",
         "png",
         "mov",
@@ -268,6 +269,7 @@ def valid_types(filepath):
         "psd",
         "mp4",
         "mpg",
+        "dng",
         "m4v",
         "cr2",
         "bmp",
@@ -278,7 +280,8 @@ def valid_types(filepath):
             return True
 
     return False
-
+def ossystem(cmd):
+    print("  "+cmd)
 
 def main():
     """
@@ -305,6 +308,9 @@ def main():
                 try:
                     if is_image:
                         (year, month, day) = exif_date_time(filepath, year, month, day)
+                except PIL.Image.DecompressionBombError as ex:
+                    print(ex)
+                    print("ignoring")
                 except:
                     print ('hoi')
                     raise

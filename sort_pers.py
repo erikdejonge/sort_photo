@@ -1,9 +1,7 @@
 import sort_photos
 
-sort_photos.SOURCEDIR = "/Users/rabshakeh/dropboxpers/Camera Uploads"
-
-
-sort_photos.TARGETDIR = "/Users/rabshakeh/dropboxa8/photos"
+sort_photos.SOURCEDIR = "/Volumes/2tb/Dropbox/Dropbox (Personal)/Camera Uploads"
+sort_photos.TARGETDIR = "/Volumes/2tb/Dropbox/Dropbox (Active8)/photos"
 
 
 if __name__ == "__main__":
