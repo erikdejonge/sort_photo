@@ -113,7 +113,9 @@ def import_file(filename, targetdir='',
     Formats for both filename and subdirs are the same used by ``strftime``.
 
     """
+
     dir, name = os.path.split(filename)
+    print(dir, name)
     basename, fileext = os.path.splitext(name)
     if targetdir == '':
         targetdir = dir
@@ -162,18 +164,28 @@ class DropboxRenamer(object):
         __init__
         """
         super(DropboxRenamer, self).__init__()
+        print("hello")
 
-        filelist = [x for x in os.listdir(sys.argv[1]) if x.lower().endswith('mp4') or x.lower().endswith('cr2') or x.lower().endswith('mov') or x.lower().endswith('jpg') or x.lower().endswith('png') ]
-        self.filelist = []
-        for x in filelist:
-            include =True
-            num = x.strip().lower().split("-")[0]
-            if num.isdigit():
-                if int(num) > 1900 and int(num)<2100:
-                    include = False
-            if include:
-                self.filelist.append(x)
+        #filelist = [x for x in os.listdir(sys.argv[1])]
+        #print(filelist)
+
+
+
+        filelist = []
+        for root, dirs, files in os.walk(sys.argv[1]):
+            for file in files:
+                filelist.append(os.path.join(root, file))
+
+
+
+        #return
+        print(len(filelist))
+        filelist = [x for x in filelist if x.lower().endswith('mp4') or x.lower().endswith('cr2') or x.lower().endswith('mov') or x.lower().endswith('jpg') or x.lower().endswith('png') or x.lower().endswith('jpeg') or x.lower().endswith('heic') ]
+
+        self.filelist = filelist
         self.dirname = sys.argv[1:]
+        print(len(filelist))
+
 
     def init_gui_values(self):
         """
@@ -194,20 +206,21 @@ class DropboxRenamer(object):
         """
         renameFiles
         """
-        for index in range(len(self.filelist) - 1, -1, -1):
-            filename = self.filelist[index]
+        #for index in range(len(self.filelist) - 1, -1, -1):
+        for filename in self.filelist:
+            #filename = self.filelist[index]
 
-            # print(filename)
+
             targetdir = self.dirname
             try:
-                status = import_file(os.path.join(targetdir[0], filename), targetdir[0],
+                status = import_file(filename, targetdir[0],
                                                shift_seconds=0,
                                                shift_img=False,
                                                shift_vid=False,
                                                sort_in_dir=False,
                                                rename=True)
 
-                print("status", status)
+                #print("status", status)
             except OSError as e:
                 consoleprinter.warning("renameFiles", str(e))
             # os.remove(os.path.join(targetdir[0], filename))

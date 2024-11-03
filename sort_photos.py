@@ -24,7 +24,8 @@ from appinstance import AppInstanceRunning
 from consoleprinter import console
 from dateutil.parser import parse
 
-#SOURCEDIR= "/Users/rabshakeh/camera_uploads_aug_2015"
+SOURCEDIR= "/Volumes/Untitled/originals"
+TARGETDIR= "/Volumes/Untitled/originals2"
 #TARGETDIR = "/Users/rabshakeh/Dropbox (Active8)/photos"
 #TARGETDIR = "/Users/rabshakeh/dropboxpers/photos"
 #TARGETDIR = "/Volumes/bu/sldropbox/photos"
@@ -330,3 +331,6 @@ def main():
         console(color="red", msg="instance runs already")
 
 standard_library.install_aliases()
+
+if __name__=="__main__":
+    main()
